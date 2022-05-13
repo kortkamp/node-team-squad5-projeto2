@@ -5,13 +5,13 @@ import 'express-async-errors';
 import { createServer } from 'http';
 
 import errorHandling from './middlewares/errorHandling';
-// import { morganMiddleware } from './middlewares/morganMiddleware';
+import { morganMiddleware } from './middlewares/morganMiddleware';
 // import '@shared/container';
 
 const app = express();
 const server = createServer(app);
 
-// app.use(morganMiddleware);
+app.use(morganMiddleware);
 
 app.use(cors());
 app.use(express.json());
