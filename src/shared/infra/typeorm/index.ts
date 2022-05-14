@@ -4,8 +4,8 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 const mainFolder = process.env.ENVIRONMENT !== 'local' ? `dist/src` : 'src';
 
-const dataSourceOptions = {
-  // type: 'postgres',
+const dataSourceOptions: DataSourceOptions = {
+  type: 'postgres',
   host:
     process.env.NODE_ENV === 'test'
       ? 'localhost'
