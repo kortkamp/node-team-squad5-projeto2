@@ -1,5 +1,6 @@
 import { logger } from '@shared/utils/logger';
 
+import { AppDataSource } from '../typeorm/dataSource';
 import { server } from './app';
 
 const port = process.env.APP_PORT;
@@ -15,7 +16,7 @@ const shutdown = () => {
     server.close(async () => {
       // when all requests are resolved
       logger.debug('HTTP server closed');
-      // await databaseDisconnect();
+      await AppDataSource.destroy();
       logger.info('App exited with success');
       process.exit(ExitStatus.Success);
     });
@@ -34,9 +35,11 @@ exitSignals.map(sig =>
   }),
 );
 
-(async () => {
-  // await databaseConnect();
-  server.listen(port, () => {
-    logger.info(`Api started on localhost:${port}! 🚀`);
-  });
-})();
+AppDataSource.initialize()
+  .then(async () => {
+    logger.debug(`Database connected`);
+    server.listen(port, () => {
+      logger.info(`Api started on localhost:${port}! 🚀`);
+    });
+  })
+  .catch(error => logger.error(error));
