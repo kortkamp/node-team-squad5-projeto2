@@ -1,8 +1,7 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import { User } from '@modules/users/infra/typeorm/models/User';
 import { DataSource, DataSourceOptions } from 'typeorm';
-
-const mainFolder = process.env.ENVIRONMENT !== 'local' ? `dist/src` : 'src';
 
 const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
@@ -17,8 +16,10 @@ const dataSourceOptions: DataSourceOptions = {
     process.env.NODE_ENV === 'test'
       ? 'projeto2_test'
       : process.env.POSTGRES_DB_DATABASE,
-  entities: [`./${mainFolder}/modules/**/infra/typeorm/models/*{.ts,.js}`],
-  migrations: [`./${mainFolder}/shared/infra/typeorm/migrations/*{.ts,.js}`],
+  entities: [User],
+  // entities: [`./${mainFolder}/modules/**/infra/typeorm/models/*{.ts,.js}`],
+  // migrations: [`./${mainFolder}/shared/infra/typeorm/migrations/*{.ts,.js}`],
+  migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
 
 export const AppDataSource = new DataSource(dataSourceOptions);
