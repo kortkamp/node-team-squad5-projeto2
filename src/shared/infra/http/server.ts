@@ -1,6 +1,6 @@
 import { logger } from '@shared/utils/logger';
 
-import { AppDataSource } from '../typeorm/dataSource';
+import { AppDataSource } from '../typeorm';
 import { server } from './app';
 
 const port = process.env.APP_PORT;
