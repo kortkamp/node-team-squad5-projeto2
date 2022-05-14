@@ -2,7 +2,7 @@ import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { IUsersRepository } from '@modules/users/repositories/IUsersRepository';
 import { Repository } from 'typeorm';
 
-import { AppDataSource } from '@shared/infra/typeorm/dataSource';
+import { AppDataSource } from '@shared/infra/typeorm/';
 
 import { User } from '../models/User';
 

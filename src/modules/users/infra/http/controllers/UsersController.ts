@@ -42,7 +42,7 @@ class UsersController {
 
     const data = request.body;
     const userId = request.params.id;
-    const authUserId = request.user.id;
+    const authUserId = request.user?.id;
 
     const user = await updateUserService.execute({ authUserId, data, userId });
 
@@ -53,7 +53,7 @@ class UsersController {
     const deleteUserService = container.resolve(DeleteUserService);
 
     const userId = request.params.id;
-    const authUserId = request.user.id;
+    const authUserId = request.user?.id;
 
     await deleteUserService.execute({ userId, authUserId });
 

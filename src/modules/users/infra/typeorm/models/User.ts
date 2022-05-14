@@ -30,9 +30,6 @@ class User implements IUser {
   @Exclude()
   password: string;
 
-  @Column('varchar')
-  avatar?: string;
-
   @CreateDateColumn()
   created_at: Date;
 
