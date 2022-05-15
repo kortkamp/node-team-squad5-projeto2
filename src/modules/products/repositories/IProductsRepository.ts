@@ -10,7 +10,6 @@ interface IProductsRepository {
     productId: string,
     relations?: string[],
   ): Promise<IProduct | undefined>;
-  findByEmail(email: string): Promise<IProduct | undefined>;
   save(dataUpdate: IProduct): Promise<void>;
   delete(product: IProduct): Promise<void>;
   getTotal(): Promise<number>;
