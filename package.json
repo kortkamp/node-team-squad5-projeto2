@@ -61,7 +61,7 @@
     "reflect-metadata": "^0.1.13",
     "tsyringe": "^4.6.0",
     "typeorm": "^0.3.6",
-    "typeorm-dynamic-filters": "^0.0.2",
+    "typeorm-dynamic-filters": "github:kortkamp/typeorm-dynamic-filters#pre-0.3",
     "uuid": "^8.3.2",
     "winston": "^3.7.2"
   }
