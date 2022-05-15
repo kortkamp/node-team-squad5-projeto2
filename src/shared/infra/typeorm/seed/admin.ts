@@ -11,8 +11,9 @@ async function create() {
   const usersRepository = new UsersRepository();
 
   const admin: ICreateUserDTO = {
-    email: 'admin@template.com',
+    email: 'admin@company.com',
     name: 'Admin',
+    segment: 'administration',
     company: 'Default Company',
     CNPJ: '64.182.592/0001-92',
     password: await hash('123456', 8),
