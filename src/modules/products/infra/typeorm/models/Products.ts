@@ -28,6 +28,9 @@ class Products implements IProduct {
   @Column('integer')
   quantity: number;
 
+  @Column('varchar')
+  category: string;
+
   @CreateDateColumn()
   created_at: Date;
 

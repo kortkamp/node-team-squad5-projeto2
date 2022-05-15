@@ -4,6 +4,7 @@ interface ICreateProductDTO {
   value: number;
   code: string;
   quantity: number;
+  category: string;
 }
 
 export { ICreateProductDTO };

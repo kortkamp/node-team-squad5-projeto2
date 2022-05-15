@@ -11,6 +11,8 @@ interface IProduct {
 
   quantity: number;
 
+  category: string;
+
   created_at: Date;
 
   updated_at: Date;
