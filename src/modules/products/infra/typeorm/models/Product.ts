@@ -9,7 +9,7 @@ import {
 import { v4 as uuid } from 'uuid';
 
 @Entity('products')
-class Products implements IProduct {
+class Product implements IProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -44,4 +44,4 @@ class Products implements IProduct {
   }
 }
 
-export { Products };
+export { Product };

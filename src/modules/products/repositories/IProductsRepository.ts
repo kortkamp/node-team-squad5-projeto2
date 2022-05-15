@@ -10,6 +10,7 @@ interface IProductsRepository {
     productId: string,
     relations?: string[],
   ): Promise<IProduct | undefined>;
+  findByCode(code: string): Promise<IProduct>;
   save(dataUpdate: IProduct): Promise<void>;
   delete(product: IProduct): Promise<void>;
   getTotal(): Promise<number>;

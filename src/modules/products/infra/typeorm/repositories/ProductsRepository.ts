@@ -1,17 +1,25 @@
 import { ICreateProductDTO } from '@modules/products/dtos/ICreateProductDTO';
+import { IProduct } from '@modules/products/models/IProduct';
 import { IProductsRepository } from '@modules/products/repositories/IProductsRepository';
 import { Repository } from 'typeorm';
 import { FilterBuilder, IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { AppDataSource } from '@shared/infra/typeorm/';
 
-import { Products } from '../models/Products';
+import { Product } from '../models/Product';
 
 class ProductsRepository implements IProductsRepository {
-  private ormRepository: Repository<Products>;
+  private ormRepository: Repository<Product>;
 
   constructor() {
-    this.ormRepository = AppDataSource.getRepository<Products>(Products);
+    this.ormRepository = AppDataSource.getRepository<Product>(Product);
+  }
+  public async findByCode(code: string): Promise<IProduct> {
+    const product = await this.ormRepository.findOne({
+      where: { code },
+    });
+
+    return product;
   }
 
   public async getTotal(): Promise<number> {
@@ -20,7 +28,7 @@ class ProductsRepository implements IProductsRepository {
     return total;
   }
 
-  public async create(data: ICreateProductDTO): Promise<Products> {
+  public async create(data: ICreateProductDTO): Promise<Product> {
     const product = this.ormRepository.create(data);
 
     await this.ormRepository.save(product);
@@ -28,7 +36,7 @@ class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  public async getAll(filter: IFilterQuery): Promise<[Products[], number]> {
+  public async getAll(filter: IFilterQuery): Promise<[Product[], number]> {
     const userFilterBuilder = new FilterBuilder(this.ormRepository, 'users');
     const qb = userFilterBuilder.build(filter);
     const result = await qb.getManyAndCount();
@@ -36,14 +44,14 @@ class ProductsRepository implements IProductsRepository {
     return result;
   }
 
-  public async save(product: Products): Promise<void> {
+  public async save(product: Product): Promise<void> {
     await this.ormRepository.save(product);
   }
 
   public async findById(
     id: string,
     relations?: string[],
-  ): Promise<Products | undefined> {
+  ): Promise<Product | undefined> {
     const product = await this.ormRepository.findOne({
       where: { id },
       relations,
@@ -52,7 +60,7 @@ class ProductsRepository implements IProductsRepository {
     return product;
   }
 
-  public async delete(product: Products): Promise<void> {
+  public async delete(product: Product): Promise<void> {
     await this.ormRepository.remove(product);
   }
 }
