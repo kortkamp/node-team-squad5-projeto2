@@ -10,6 +10,7 @@ export const createUserValidate = celebrate(
       CNPJ: Joi.string()
         .regex(/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/)
         .required(),
+      segment: Joi.string().required(),
       password: Joi.string().required(),
       password_confirmation: Joi.string().required().valid(Joi.ref('password')),
     },
@@ -28,6 +29,7 @@ export const updateUserValidate = celebrate({
     email: Joi.string().email().trim().lowercase(),
     company: Joi.string(),
     CNPJ: Joi.string().regex(/^\d{2}.\d{3}.\d{3}\/\d{4}-\d{2}$/),
+    segment: Joi.string(),
     old_password: Joi.string(),
     password: Joi.string(),
   }).and('password', 'old_password'),
