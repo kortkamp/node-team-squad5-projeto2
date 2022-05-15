@@ -21,6 +21,9 @@ class User implements IUser {
   name: string;
 
   @Column('varchar')
+  segment: string;
+
+  @Column('varchar')
   company: string;
 
   @Column('varchar')
