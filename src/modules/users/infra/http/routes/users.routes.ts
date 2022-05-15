@@ -1,6 +1,7 @@
 import { Router } from 'express';
 
 import { UsersController } from '../controllers/UsersController';
+import { authMiddleware } from '../middlewares/authMiddleware';
 import {
   createUserValidate,
   listUserValidate,
@@ -9,6 +10,8 @@ import {
 } from '../validations/users.validation';
 
 const usersRoutes = Router();
+
+usersRoutes.use(authMiddleware);
 
 const usersController = new UsersController();
 
