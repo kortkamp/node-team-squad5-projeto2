@@ -1,5 +1,6 @@
 import 'reflect-metadata';
 import 'dotenv/config';
+import { Products } from '@modules/products/infra/typeorm/models/Products';
 import { User } from '@modules/users/infra/typeorm/models/User';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
@@ -16,9 +17,7 @@ const dataSourceOptions: DataSourceOptions = {
     process.env.NODE_ENV === 'test'
       ? 'projeto2_test'
       : process.env.POSTGRES_DB_DATABASE,
-  entities: [User],
-  // entities: [`./${mainFolder}/modules/**/infra/typeorm/models/*{.ts,.js}`],
-  // migrations: [`./${mainFolder}/shared/infra/typeorm/migrations/*{.ts,.js}`],
+  entities: [User, Products],
   migrations: [`./dist/src/shared/infra/typeorm/migrations/*.js`],
 };
 
