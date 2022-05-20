@@ -67,6 +67,15 @@ or in development mode
 npm run dev
 ```
 
+## Using Docker-Compose
+
+On project root folder just type
+
+```
+docker-compose up -d
+```
+
+
 Now you have the project running and can start to mess with everything.
 
 
