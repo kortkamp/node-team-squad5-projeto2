@@ -29,8 +29,10 @@ class OrdersRepository implements IOrdersRepository {
   }
 
   public async getAll(filter: IFilterQuery): Promise<[Order[], number]> {
-    const OrderFilterBuilder = new FilterBuilder(this.ormRepository, 'Orders');
+    const OrderFilterBuilder = new FilterBuilder(this.ormRepository, 'order');
     const qb = OrderFilterBuilder.build(filter);
+
+    qb.leftJoinAndSelect('order.products', 'user');
     const result = await qb.getManyAndCount();
 
     return result;
