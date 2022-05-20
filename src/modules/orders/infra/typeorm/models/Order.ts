@@ -8,8 +8,11 @@ import {
   UpdateDateColumn,
   ManyToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
+
+import { ProductOrder } from './ProductOrder';
 
 @Entity('orders')
 class Order implements IOrder {
@@ -25,6 +28,10 @@ class Order implements IOrder {
 
   @Column('varchar')
   status: OrderStatus;
+
+  @OneToMany(type => ProductOrder, product_order => product_order.order, {})
+  @JoinColumn({ name: 'id' })
+  products: ProductOrder[];
 
   @CreateDateColumn()
   created_at: Date;
