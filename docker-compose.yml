@@ -1,0 +1,40 @@
+version: "3.7"
+
+services:
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: root 
+      POSTGRES_PASSWORD: passw
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+  
+  app:
+    container_name: node
+    image: node:16.15.0-alpine
+    command: npm run typeorm migration:run && npm run dev
+    working_dir: /app
+    volumes:
+      - ./:/app
+    env_file:
+      - './.env'
+    ports:
+      - 3004:3004
+    networks:
+      - postgres
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  app:
+  postgres: 
+
