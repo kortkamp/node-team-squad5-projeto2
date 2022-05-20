@@ -23,7 +23,7 @@ class CreateOrderService {
   }: ICreateOrderDTO): Promise<IOrder> {
     const userExists = await this.usersRepository.findById(user_id);
 
-    if (userExists) {
+    if (!userExists) {
       throw new ErrorsApp('User not found', 404);
     }
 
