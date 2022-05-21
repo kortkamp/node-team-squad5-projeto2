@@ -72,7 +72,7 @@ npm run dev
 On project root folder just type
 
 ```
-docker-compose up -d
+docker-compose up
 ```
 
 
