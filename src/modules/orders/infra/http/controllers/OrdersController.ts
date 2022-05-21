@@ -1,4 +1,5 @@
 import { CreateOrderService } from '@modules/orders/services/CreateOrderService';
+import { DeleteOrderService } from '@modules/orders/services/DeleteOrderService';
 import { ListOrdersService } from '@modules/orders/services/ListOrdersService';
 import { ShowOrderService } from '@modules/orders/services/ShowOrderService';
 import { Request, Response } from 'express';
@@ -23,6 +24,16 @@ class OrdersController {
     const order = await showOrderService.execute(orderId);
 
     return response.json({ success: true, order });
+  }
+
+  public async delete(request: Request, response: Response): Promise<Response> {
+    const deleteOrderService = container.resolve(DeleteOrderService);
+
+    const orderId = request.params.id;
+
+    await deleteOrderService.execute(orderId);
+
+    return response.status(204).send();
   }
 
   public async create(request: Request, response: Response): Promise<Response> {

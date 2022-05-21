@@ -13,6 +13,8 @@ ordersRoutes.post('/', ordersController.create);
 
 ordersRoutes.get('/:id', ordersController.show);
 
+ordersRoutes.delete('/:id', ordersController.delete);
+
 ordersRoutes.get('/', ordersController.index);
 
 export { ordersRoutes };
