@@ -1,3 +1,4 @@
+import { ProductOrder } from '@modules/orders/infra/typeorm/models/ProductOrder';
 import { IProduct } from '@modules/products/models/IProduct';
 import {
   Entity,
@@ -5,6 +6,8 @@ import {
   PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
@@ -30,6 +33,10 @@ class Product implements IProduct {
 
   @Column('varchar')
   category: string;
+
+  @OneToMany(type => ProductOrder, product_order => product_order.product, {})
+  @JoinColumn({ name: 'id' })
+  orders: ProductOrder[];
 
   @CreateDateColumn()
   created_at: Date;

@@ -37,8 +37,16 @@ class ProductsRepository implements IProductsRepository {
   }
 
   public async getAll(filter: IFilterQuery): Promise<[Product[], number]> {
-    const userFilterBuilder = new FilterBuilder(this.ormRepository, 'users');
+    const userFilterBuilder = new FilterBuilder(this.ormRepository, 'products');
     const qb = userFilterBuilder.build(filter);
+
+    qb.leftJoin('products.orders', 'order').addSelect([
+      'order.id',
+      'order.quantity',
+    ]);
+    // .leftJoin('products.product', 'product')
+    // .addSelect(['product.name', 'product.value']);
+
     const result = await qb.getManyAndCount();
 
     return result;
