@@ -11,7 +11,7 @@ const ordersController = new OrdersController();
 
 ordersRoutes.post('/', ordersController.create);
 
-// ordersRoutes.get('/:id', ordersController.show);
+ordersRoutes.get('/:id', ordersController.show);
 
 ordersRoutes.get('/', ordersController.index);
 

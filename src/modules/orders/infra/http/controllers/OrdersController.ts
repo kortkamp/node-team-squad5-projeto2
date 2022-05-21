@@ -1,5 +1,6 @@
 import { CreateOrderService } from '@modules/orders/services/CreateOrderService';
 import { ListOrdersService } from '@modules/orders/services/ListOrdersService';
+import { ShowOrderService } from '@modules/orders/services/ShowOrderService';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import { parseQueryFilters } from 'typeorm-dynamic-filters';
@@ -14,15 +15,15 @@ class OrdersController {
     return response.json({ success: true, ...orders });
   }
 
-  // public async show(request: Request, response: Response): Promise<Response> {
-  //   const showProduct = container.resolve(ShowProductService);
+  public async show(request: Request, response: Response): Promise<Response> {
+    const showOrderService = container.resolve(ShowOrderService);
 
-  //   const productId = request.params.id;
+    const orderId = request.params.id;
 
-  //   const user = await showProduct.execute(productId);
+    const order = await showOrderService.execute(orderId);
 
-  //   return response.json({ success: true, user });
-  // }
+    return response.json({ success: true, order });
+  }
 
   public async create(request: Request, response: Response): Promise<Response> {
     const createOrderService = container.resolve(CreateOrderService);
