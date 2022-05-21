@@ -1,3 +1,5 @@
+import { IProductOrder } from './IProductOrder';
+
 export enum OrderStatus {
   OPEN = 'open',
   CANCELLED = 'cancelled',
@@ -10,6 +12,8 @@ interface IOrder {
   user_id: string;
 
   status: OrderStatus;
+
+  products: IProductOrder[];
 
   created_at: Date;
 

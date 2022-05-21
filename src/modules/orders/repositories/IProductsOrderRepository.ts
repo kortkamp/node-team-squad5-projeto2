@@ -7,6 +7,7 @@ interface IProductsOrderRepository {
     id: string,
     relations?: string[],
   ): Promise<IProductOrder | undefined>;
+  save(data: IProductOrder): Promise<void>;
   delete(productOrder: IProductOrder): Promise<void>;
   getTotal(): Promise<number>;
 }

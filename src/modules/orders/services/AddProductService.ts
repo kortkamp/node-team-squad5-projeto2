@@ -26,9 +26,18 @@ class AddProductService {
       throw new ErrorsApp('Order not found', 404);
     }
 
-    const order = await this.productsOrderRepository.create(data);
+    const index = orderExists.products.findIndex(
+      item => item.product_id === data.product_id,
+    );
+    // product already is on the list
+    if (index >= 0) {
+      orderExists.products[index].quantity += Number(data.quantity);
+      await this.productsOrderRepository.save(orderExists.products[index]);
+      return orderExists.products[index];
+    }
+    const productOrder = await this.productsOrderRepository.create(data);
 
-    return order;
+    return productOrder;
   }
 }
 
