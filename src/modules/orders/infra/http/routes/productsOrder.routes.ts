@@ -11,6 +11,8 @@ const productsOrderController = new ProductsOrderController();
 
 productsOrderRoutes.post('/', productsOrderController.create);
 
+productsOrderRoutes.delete('/:id', productsOrderController.delete);
+
 // ordersRoutes.get('/:id', ordersController.show);
 
 export { productsOrderRoutes };
