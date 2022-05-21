@@ -1,4 +1,5 @@
 import { injectable, inject } from 'tsyringe';
+import { IFilterQuery } from 'typeorm-dynamic-filters';
 
 import { IListResultInterface } from '@shared/dtos/IListResultDTO';
 
@@ -11,8 +12,8 @@ class ListUsersService {
     private usersRepository: IUsersRepository,
   ) {}
 
-  public async execute(): Promise<IListResultInterface> {
-    const [users, length] = await this.usersRepository.getAll();
+  public async execute(filters: IFilterQuery): Promise<IListResultInterface> {
+    const [users, length] = await this.usersRepository.getAll(filters);
 
     const total = await this.usersRepository.getTotal();
 
@@ -20,9 +21,9 @@ class ListUsersService {
       result: users,
       total_registers: total,
       total_filtered: length,
-      page: undefined,
-      per_page: undefined,
-      total_pages: undefined,
+      page: filters.page,
+      per_page: filters.per_page,
+      total_pages: Math.ceil(length / filters.per_page),
     };
   }
 }

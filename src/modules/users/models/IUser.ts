@@ -3,6 +3,8 @@ interface IUser {
 
   name: string;
 
+  segment: string;
+
   company: string;
 
   CNPJ: string;

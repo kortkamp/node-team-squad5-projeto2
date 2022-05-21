@@ -6,12 +6,14 @@ import { UpdateUserService } from '@modules/users/services/UpdateUserService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
+import { parseQueryFilters } from 'typeorm-dynamic-filters';
 
 class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listUsers = container.resolve(ListUsersService);
 
-    const users = await listUsers.execute();
+    const filters = parseQueryFilters(request.query);
+    const users = await listUsers.execute(filters);
 
     return response.json({ success: true, ...instanceToInstance(users) });
   }
