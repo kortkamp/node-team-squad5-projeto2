@@ -43,6 +43,7 @@ class ProductsRepository implements IProductsRepository {
     qb.leftJoin('products.orders', 'order').addSelect([
       'order.id',
       'order.quantity',
+      'order.created_at',
     ]);
     // .leftJoin('products.product', 'product')
     // .addSelect(['product.name', 'product.value']);

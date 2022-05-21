@@ -1,3 +1,5 @@
+import { IProductOrder } from '@modules/orders/models/IProductOrder';
+
 interface IProduct {
   id: string;
 
@@ -12,6 +14,8 @@ interface IProduct {
   quantity: number;
 
   category: string;
+
+  orders: IProductOrder[];
 
   created_at: Date;
 
