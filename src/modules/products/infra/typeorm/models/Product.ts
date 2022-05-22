@@ -11,6 +11,8 @@ import {
 } from 'typeorm';
 import { v4 as uuid } from 'uuid';
 
+import { Entry } from './Entry';
+
 @Entity('products')
 class Product implements IProduct {
   @PrimaryGeneratedColumn('uuid')
@@ -37,6 +39,10 @@ class Product implements IProduct {
   @OneToMany(type => ProductOrder, product_order => product_order.product, {})
   @JoinColumn({ name: 'id' })
   orders: ProductOrder[];
+
+  @OneToMany(type => Entry, entry => entry.product, {})
+  @JoinColumn({ name: 'id' })
+  entries: Entry[];
 
   @CreateDateColumn()
   created_at: Date;
