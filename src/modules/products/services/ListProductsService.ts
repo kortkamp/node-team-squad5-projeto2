@@ -7,6 +7,7 @@ import { IProductsRepository } from '../repositories/IProductsRepository';
 interface IResumedProduct extends IProduct {
   sales: number;
   sales_value: number;
+  total_entries: number;
 }
 
 @injectable()
@@ -30,17 +31,24 @@ class ListProductsService {
         (total, order) => total + order.quantity * product.value,
         0,
       );
+      const totalEntries = product.entries.reduce(
+        (total, entry) => total + entry.quantity,
+        0,
+      );
 
       Object.assign(product, {
         sales: totalSales,
         sales_value: totalSalesValue,
+        total_entries: totalEntries,
       });
     });
 
     const resume = {
       // Total de produtos que já foi cadastrado
-      entries: 'not implemented',
-
+      entries: products.reduce(
+        (total, product) => total + (product as IResumedProduct).total_entries,
+        0,
+      ),
       // Total de produtos em estoque
       stock: products.reduce((total, product) => total + product.quantity, 0),
       // Valor total do estoque atual
