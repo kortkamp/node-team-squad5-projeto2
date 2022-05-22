@@ -40,11 +40,10 @@ class ProductsRepository implements IProductsRepository {
     const userFilterBuilder = new FilterBuilder(this.ormRepository, 'products');
     const qb = userFilterBuilder.build(filter);
 
-    qb.leftJoin('products.orders', 'order').addSelect([
-      'order.id',
-      'order.quantity',
-      'order.created_at',
-    ]);
+    qb.leftJoin('products.orders', 'order')
+      .addSelect(['order.id', 'order.quantity', 'order.created_at'])
+      .leftJoin('products.entries', 'entry')
+      .addSelect(['entry.id', 'entry.quantity', 'entry.created_at']);
     // .leftJoin('products.product', 'product')
     // .addSelect(['product.name', 'product.value']);
 
