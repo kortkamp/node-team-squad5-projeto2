@@ -4,6 +4,7 @@ import ErrorsApp from '@shared/errors/ErrorsApp';
 
 import { ICreateProductDTO } from '../dtos/ICreateProductDTO';
 import { IProduct } from '../models/IProduct';
+import { IEntriesRepository } from '../repositories/IEntriesRepository';
 import { IProductsRepository } from '../repositories/IProductsRepository';
 
 @injectable()
@@ -11,6 +12,9 @@ class CreateProductService {
   constructor(
     @inject('ProductsRepository')
     private productsRepository: IProductsRepository,
+
+    @inject('EntriesRepository')
+    private entriesRepository: IEntriesRepository,
   ) {}
 
   public async execute(data: ICreateProductDTO): Promise<IProduct> {
@@ -27,12 +31,20 @@ class CreateProductService {
       // add to product stock
       productExists.quantity += data.quantity;
       await this.productsRepository.save(productExists);
+      await this.entriesRepository.create({
+        product_id: productExists.id,
+        quantity: data.quantity,
+      });
 
       return productExists;
     }
 
-    const user = await this.productsRepository.create(data);
-    return user;
+    const product = await this.productsRepository.create(data);
+    await this.entriesRepository.create({
+      product_id: product.id,
+      quantity: data.quantity,
+    });
+    return product;
   }
 }
 
