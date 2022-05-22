@@ -1,5 +1,7 @@
 import { IProductOrder } from '@modules/orders/models/IProductOrder';
 
+import { IEntry } from './IEntry';
+
 interface IProduct {
   id: string;
 
@@ -16,6 +18,8 @@ interface IProduct {
   category: string;
 
   orders: IProductOrder[];
+
+  entries: IEntry[];
 
   created_at: Date;
 
