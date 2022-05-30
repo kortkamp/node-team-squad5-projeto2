@@ -19,7 +19,7 @@ services:
   app:
     container_name: node
     image: node:16.15.0-alpine
-    command: bash -c "npm run build && npm run typeorm migration:run && npm run start"
+    command: sh -c "npm run typeorm migration:run && npm run start"
     working_dir: /app
     volumes:
       - ./:/app

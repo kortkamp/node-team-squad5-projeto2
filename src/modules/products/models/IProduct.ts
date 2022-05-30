@@ -17,10 +17,6 @@ interface IProduct {
 
   category: string;
 
-  orders: IProductOrder[];
-
-  entries: IEntry[];
-
   created_at: Date;
 
   updated_at: Date;
