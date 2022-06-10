@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 
-import { ICreateProductDTO } from '@modules/products/dtos/ICreateProductDTO';
 import { FakeProduct } from '../models/fakes/FakeProduct';
 import { FakeEntriesRepository } from '../repositories/fakes/FakeEntriesRepository';
 import { FakeProductsRepository } from '../repositories/fakes/FakeProductsRepository';
@@ -9,12 +8,13 @@ import { CreateProductService } from './CreateProductService';
 let fakeEntriesRepository: FakeEntriesRepository;
 let fakeProductsRepository: FakeProductsRepository;
 let createProductService: CreateProductService;
-const fakeProduct: ICreateProductDTO = new FakeProduct();
+let fakeProduct: FakeProduct;
 
-describe('Product -> CRUD', () => {
-  beforeEach(() => {
+describe('CreateProductService', () => {
+  beforeAll(() => {
     fakeEntriesRepository = new FakeEntriesRepository();
     fakeProductsRepository = new FakeProductsRepository();
+    fakeProduct = new FakeProduct();
     createProductService = new CreateProductService(
       fakeProductsRepository,
       fakeEntriesRepository,
@@ -22,9 +22,23 @@ describe('Product -> CRUD', () => {
   });
 
   it('Should be able to input a new product.', async () => {
-    const insertProduct = await createProductService.execute(fakeProduct);
+    const productCreated = await createProductService.execute(fakeProduct);
+    expect(productCreated).toHaveProperty('id');
+    expect(productCreated?.name).toBe(fakeProduct.name);
+  });
 
-    expect(insertProduct).toHaveProperty('id');
-    expect(insertProduct?.name).toBe(fakeProduct.name);
+  it('Increase quantity stock of an existent', async () => {
+    const productCreated = await createProductService.execute(fakeProduct);
+    const previousQuantity = fakeProduct.quantity;
+    expect(productCreated.quantity).toBeGreaterThan(previousQuantity);
+  });
+
+  it('The product exists but does not match the name.', async () => {
+    fakeProduct.name = 'Sky Gloves S/A';
+    await expect(
+      createProductService.execute(fakeProduct),
+    ).rejects.toMatchObject({
+      message: 'The product already exists, but the names do not match',
+    });
   });
 });
