@@ -1,8 +1,6 @@
 import { FakeProduct } from '@modules/products/models/fakes/FakeProduct';
 import { IFilterQuery } from 'typeorm-dynamic-filters';
 
-import ErrorsApp from '@shared/errors/ErrorsApp';
-
 import { ICreateProductDTO } from '../../dtos/ICreateProductDTO';
 import { IProduct } from '../../models/IProduct';
 import { IProductsRepository } from '../IProductsRepository';
@@ -10,32 +8,43 @@ import { IProductsRepository } from '../IProductsRepository';
 class FakeProductsRepository implements IProductsRepository {
   private products: IProduct[] = [];
 
-  async create(data: ICreateProductDTO): Promise<IProduct> {
-    try {
-      const product = new FakeProduct();
-      this.products.push(product);
-      return product;
-    } catch (e: any) {
-      throw new ErrorsApp(e.message);
+  public async create(data: ICreateProductDTO): Promise<IProduct> {
+    const product = new FakeProduct(data);
+    this.products.push(product);
+    return product;
+  }
+  public async getAll(filter: IFilterQuery): Promise<[IProduct[], number]> {
+    return [this.products, this.products.length];
+  }
+  public async findById(
+    productId: string,
+    relations?: string[],
+  ): Promise<IProduct> {
+    const productDesired = this.products.find(
+      product => product.id === productId,
+    );
+    return productDesired;
+  }
+  public async findByCode(code: string): Promise<IProduct> {
+    const productDesired = this.products.find(product => product.code === code);
+    return productDesired;
+  }
+  public async save(dataUpdate: IProduct): Promise<void> {
+    const wantedProduct = this.products.findIndex(
+      user => user.id === dataUpdate.id,
+    );
+
+    if (wantedProduct >= 0) {
+      Object.assign(this.products[wantedProduct], dataUpdate);
     }
   }
-  getAll(filter: IFilterQuery): Promise<[IProduct[], number]> {
-    throw new ErrorsApp('Method not implemented.');
+  public async delete(discardedProduct: IProduct): Promise<void> {
+    this.products = this.products.filter(
+      product => product.id !== discardedProduct.id,
+    );
   }
-  findById(productId: string, relations?: string[]): Promise<IProduct> {
-    throw new ErrorsApp('Method not implemented.');
-  }
-  findByCode(code: string): Promise<IProduct> {
-    throw new ErrorsApp('Method not implemented.');
-  }
-  save(dataUpdate: IProduct): Promise<void> {
-    throw new ErrorsApp('Method not implemented.');
-  }
-  delete(product: IProduct): Promise<void> {
-    throw new ErrorsApp('Method not implemented.');
-  }
-  getTotal(): Promise<number> {
-    throw new ErrorsApp('Method not implemented.');
+  public async getTotal(): Promise<number> {
+    return this.products.length;
   }
 }
 

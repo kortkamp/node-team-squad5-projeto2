@@ -31,19 +31,23 @@ class CreateProductService {
       // add to product stock
       productExists.quantity += data.quantity;
       await this.productsRepository.save(productExists);
-      await this.entriesRepository.create({
-        product_id: productExists.id,
-        quantity: data.quantity,
-      });
+      productExists.entries.push(
+        await this.entriesRepository.create({
+          product_id: productExists.id,
+          quantity: data.quantity,
+        }),
+      );
 
       return productExists;
     }
 
     const product = await this.productsRepository.create(data);
-    await this.entriesRepository.create({
-      product_id: product.id,
-      quantity: data.quantity,
-    });
+    product.entries.push(
+      await this.entriesRepository.create({
+        product_id: product.id,
+        quantity: data.quantity,
+      }),
+    );
     return product;
   }
 }
