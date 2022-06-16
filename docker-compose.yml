@@ -19,12 +19,14 @@ services:
   app:
     container_name: node
     image: node:16.15.0-alpine
-    command: npm run typeorm migration:run && npm run dev
+    command: sh -c "npm run typeorm migration:run && npm run start"
     working_dir: /app
     volumes:
       - ./:/app
     env_file:
       - './.env'
+    environment:
+      POSTGRES_DB_HOST: postgres
     ports:
       - 3004:3004
     networks:
@@ -35,6 +37,4 @@ networks:
     driver: bridge
 
 volumes:
-  app:
   postgres: 
-
