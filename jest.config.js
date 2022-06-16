@@ -24,5 +24,5 @@ module.exports = {
 
   testEnvironment: 'node',
 
-  testMatch: ['**/*.spec.ts'],
+  testMatch: ['**/unit/**/*.spec.ts'],
 };

@@ -27,11 +27,7 @@ class UpdateUserService {
     private hashProvider: IHashProvider,
   ) {}
 
-  public async execute({ userId, authUserId, data }: IRequest): Promise<IUser> {
-    // if (authUserId !== userId) {
-    //   throw new ErrorsApp('User not authorized', 403);
-    // }
-
+  public async execute({ userId, data }: IRequest): Promise<IUser> {
     const user = await this.usersRepository.findById(userId);
 
     if (!user) {
