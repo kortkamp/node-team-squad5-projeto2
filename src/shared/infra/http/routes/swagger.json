@@ -1,0 +1,343 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "NodeBrasil Squad5 Projeto2",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3004",
+      "description": "Test API address"
+    }
+  ],
+  "host": "localhost:3004",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Orders",
+      "description": "Manipulate orders"
+    },
+    {
+      "name": "Products",
+      "description": "Manipulate products"
+    },
+    {
+      "name": "Users",
+      "description": "Manipulate users"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Show a specific User",
+        "description": "Show a specific user.",
+        "tags": ["Users"],
+        "parameters": [],
+        "security": [ 
+					{ 
+						"bearerAuth":[] 
+					} 
+				],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete an user.",
+        "description": "Delete an user.",
+        "tags": ["Users"],
+        "security": [ 
+					{ 
+						"bearerAuth":[] 
+					} 
+				],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create an user.",
+        "description": "Create an user.",
+        "tags": ["Users"],
+				"security": [ 
+					{ 
+						"bearerAuth":[] 
+					} 
+				],
+				"requestBody": {
+					"content": {
+						"application/json":{
+							"schema":{
+								"$ref": "#/components/schemas/User"
+							},
+							"examples": {
+								"user": {
+									"name":"marcelo",
+									"email":"marcelo2@email.com",
+									"company":"Marcelo inc",
+									"CNPJ":"12.123.123/3333-13",
+									"password":"123456"
+								}
+							}
+						}
+					}
+				},
+        "parameters": [],
+        "responses": {
+					"401": {
+            "description": "Unauthorized."
+          },
+					"400": {
+            "description": "User already exists."
+          },
+					"200": {
+            "description": "Sucessfully created.",
+						"content": {
+							"application/json":{
+								"schema":{
+									"type": "object",
+									"$ref": "#/components/schemas/User"
+								}
+							}
+						}
+          }
+        }
+      }
+    },
+    "/sessions": {
+      "post": {
+        "summary": "Authentication of an user",
+        "description": "Authenticate",
+        "tags": ["Users"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/xml"
+        ],
+        "requestBody": {
+          "content":{
+            "application/json":{
+              "schema":{
+                "type": "object",
+                "$ref": "#/components/schemas/Sessions"
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Email and Password",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Sessions"
+            }
+          }
+        ],
+        "responses": {
+          "400":{
+            "description": "Bad request"
+          },
+          "403": {
+            "description": "Invalid email/password combination"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/products": {
+      "get": {
+        "description": "",
+        "tags": ["Products"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/orders": {
+      "get": {
+        "description": "",
+        "tags": ["Orders"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/product-order": {
+      "delete": {
+        "description": "Delete an order from a specific product.",
+        "tags": ["Orders"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/users/{id}": {
+      "get": {
+        "summary": "Show an specific user",
+        "description": "Show an specific user",
+        "tags": ["Users"],
+        "security": [ 
+					{ 
+						"bearerAuth":[] 
+					} 
+				],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in":"path",
+            "name": "id",
+            "description": "UUID as an URL path to show a specific user.",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "segment": {
+            "type": "string"
+          },
+          "company": {
+            "type": "string"
+          },
+          "CNPJ": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      },
+			"Product": {
+				"type": "object",
+				"properties":{
+					"id":{
+						"type": "string"
+					},
+					"name":{
+						"type": "string"
+					},
+					"description":{
+						"type": "string"
+					},
+					"value":{
+						"type": "number"
+					},
+					"code":{
+						"type": "string"
+					},
+					"quantity":{
+						"type": "number"
+					},
+					"orders":{
+						"type": "object"
+					},
+					"entries":{
+						"type": "object"
+					},
+					"category":{
+						"type": "string"
+					},
+					"createdAt":{
+						"type": "string"
+					},
+					"updatedAt":{
+						"type": "string"
+					}
+				}
+			},
+			"Order":{
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+  				"user_id":{
+						"type": "string"
+					},
+  				"status":{
+						"type": "object"
+					},
+  				"products":{
+						"type": "object"
+					},
+  				"created_at":{
+						"type":"string"
+					},
+  				"updated_at":{
+						"type":"string"
+					}
+				}
+			},
+      "Sessions":{
+				"type": "object",
+				"properties": {
+					"email": {
+						"type": "string"
+					},
+  				"password":{
+						"type": "string"
+					}
+				}
+			}
+    },
+		"securitySchemes": {
+			"bearerAuth":{
+				"type": "http",
+				"scheme": "bearer",
+				"bearerFormat": "JWT"
+			}
+		}
+  }
+}
